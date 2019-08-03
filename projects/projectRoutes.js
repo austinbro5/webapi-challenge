@@ -100,3 +100,24 @@ router.get('/', (req, res) => {
           res.status(400).json({ errorMessage: 'Please provide more project info' })
         }
       })
+
+      // Delete Routes //
+
+      router.delete('/:id', (req, res) => {
+        const { id } = req.params
+        db.remove(id)
+          .then(count => {
+            if (count) {
+              res.json({ message: 'project successfully deleted' })
+            } else {
+              res
+                .status(404)
+                .json({ message: 'The project with the specified ID does not exist' })
+            }
+          })
+          .catch(err => {
+            res.status(500).json({ error: 'The project could not be removed' })
+          })
+      })
+      
+      module.exports = router
